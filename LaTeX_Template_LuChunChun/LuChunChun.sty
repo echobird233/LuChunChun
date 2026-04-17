@@ -1,0 +1,277 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{LuChunChun}[2026/03/07 LuChunChun Math Notes Template V4.6]
+
+%1.基础宏包依赖
+\RequirePackage[UTF8]{ctex}
+\RequirePackage{fontspec} % 按要求新增
+\RequirePackage{amsmath, amsthm, amssymb, mathrsfs}
+\RequirePackage{graphicx}
+\graphicspath{{figure/}} 
+\RequirePackage[export]{adjustbox}
+\RequirePackage{float}
+\RequirePackage{geometry}
+\RequirePackage{xcolor}
+\RequirePackage{tikz}
+\usetikzlibrary{fadings} 
+\RequirePackage[skins, theorems, breakable]{tcolorbox}
+\RequirePackage{fancyhdr}
+\RequirePackage{lastpage}
+\RequirePackage{titlesec}
+\RequirePackage{tocloft}   
+\RequirePackage{caption}   
+\RequirePackage{hyperref}
+
+% 整合字体与目录深度设置
+\setcounter{tocdepth}{2}
+\setCJKmainfont{仓耳今楷01W03.ttf}[
+    Path = ./,
+    Extension = .ttf
+]
+\setCJKsansfont{仓耳今楷01W03.ttf}[
+    Path = ./,
+    Extension = .ttf
+]
+\setCJKmonofont{仓耳今楷01W03.ttf}[
+    Path = ./,
+    Extension = .ttf
+]
+
+%2.颜色定义
+\definecolor{LCCDeepBlue}{RGB}{20, 40, 100}
+\definecolor{LCCLightBlue}{RGB}{100, 150, 220}  
+\definecolor{LCCLightPurple}{RGB}{170, 150, 210}
+\definecolor{LCCLineBlue}{RGB}{135, 206, 250}
+\definecolor{LCCGray}{RGB}{160, 160, 165}
+\definecolor{LCCLightPink}{RGB}{255, 170, 185}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=LCCDeepBlue,
+    citecolor=LCCDeepBlue,
+    urlcolor=LCCLightBlue
+}
+
+%3.页面布局与变量
+\geometry{
+    a4paper,
+    left=2.5cm, right=2.5cm,
+    top=2.5cm, bottom=2.5cm,
+    headheight=15pt
+}
+\def\lcc@title{数学笔记}
+\def\lcc@subtitle{副标题未设置}
+\def\lcc@author{LuChunChun}
+\def\lcc@contact{test@example.com}
+\def\lcc@sectionbg{covers.png} 
+\renewcommand{\title}[1]{\def\lcc@title{#1}}
+\newcommand{\subtitle}[1]{\def\lcc@subtitle{#1}}
+\renewcommand{\author}[1]{\def\lcc@author{#1}}
+\newcommand{\contact}[1]{\def\lcc@contact{#1}}
+\newcommand{\setsectionimage}[1]{\def\lcc@sectionbg{#1}}
+\newif\if@customsec
+\@customsecfalse
+
+%4.标题与图表
+\captionsetup{
+    labelfont={color=LCCDeepBlue, bf},
+    textfont={color=LCCDeepBlue}
+}
+\titleformat{\subsection}
+  {\normalfont\Large\heiti\bfseries\color{LCCDeepBlue}}
+  {\thesubsection}
+  {1em}
+  {}
+
+\titleformat{\subsubsection}
+  {\normalfont\large\heiti\bfseries\color{LCCDeepBlue}}
+  {\thesubsubsection}
+  {1em}
+  {}
+
+%5.全局正文页脚
+\fancypagestyle{lccfancy}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.8pt}
+    \renewcommand{\footrule}{\hbox to\headwidth{\color{LCCGray}\leaders\hrule height \footrulewidth\hfill}\vskip 2pt}
+    \fancyfoot[L]{\textcolor{LCCGray}{\lcc@subtitle}}
+    \fancyfoot[R]{\textcolor{LCCGray}{第 \thepage\ 页\,丨\,共 \pageref*{LastPage} 页}}
+}
+
+\fancypagestyle{lcctoc}{
+    \fancyhf{}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0pt}
+    \fancyhead[C]{%
+        \begin{tikzpicture}[remember picture, overlay]
+            \node[anchor=north, inner sep=0pt] at (current page.north) {\includegraphics[width=\paperwidth]{content.png}};
+        \end{tikzpicture}%
+    }
+}
+\tocloftpagestyle{lcctoc}
+
+%6.封面页生成
+\newcommand{\makecover}{
+    \begin{titlepage}
+        \thispagestyle{empty}
+        \begin{tikzpicture}[remember picture, overlay]
+            \begin{scope}
+                \clip (current page.north west) rectangle ([yshift=-0.69\paperheight]current page.north east);
+                \node[anchor=north, inner sep=0pt] at (current page.north) {
+                    \includegraphics[width=\paperwidth]{\lcc@sectionbg}
+                };
+            \end{scope}
+            \fill[white, path fading=north] 
+                ([yshift=-0.67\paperheight]current page.north west) 
+                rectangle 
+                ([yshift=-0.67\paperheight+4.5cm]current page.north east);
+            \fill[white] 
+                ([yshift=-0.67\paperheight+1pt]current page.north west) 
+                rectangle 
+                ([yshift=-0.69\paperheight-1pt]current page.north east);
+            \draw[LCCLightBlue, line width=2pt] ([yshift=-0.70\paperheight, xshift=1.5cm]current page.north west) -- ++(0, -5cm);
+            \draw[LCCDeepBlue, line width=4pt] ([yshift=-0.70\paperheight, xshift=1.8cm]current page.north west) -- ++(0, -3.5cm);
+            \node[anchor=north west, align=left] at ([xshift=2.5cm, yshift=-0.70\paperheight]current page.north west) {
+                \begin{minipage}{0.7\textwidth}
+                    \vspace{0.2cm}
+                    {\fontsize{42}{50}\selectfont \heiti \bfseries \textcolor{LCCDeepBlue}{\lcc@title} \par}
+                    \vspace{0.6cm}
+                    {\Large \itshape \textcolor{LCCDeepBlue}{\lcc@subtitle} \par}
+                    \vspace{1.2cm}
+                    {\small \textcolor{LCCGray}{\textbf{AUTHOR} \quad \lcc@author} \par}
+                    \vspace{0.2cm}
+                    {\small \textcolor{LCCGray}{\textbf{CONTACT} \quad \lcc@contact} \par}
+                \end{minipage}
+            };
+            \node[anchor=south east, inner sep=0pt] at ([xshift=-1.5cm, yshift=1.5cm]current page.south east) {
+                \includegraphics[width=1.5cm]{character.png}
+            };
+        \end{tikzpicture}
+    \end{titlepage}
+}
+
+%7.目录页设定
+\renewcommand{\cftsecfont}{\heiti\bfseries\color{LCCDeepBlue}}     
+\renewcommand{\cftsecpagefont}{\heiti\bfseries\color{LCCDeepBlue}}
+\renewcommand{\cftsubsecfont}{\color{LCCDeepBlue!75!white}}                
+\renewcommand{\cftsubsecpagefont}{\color{LCCDeepBlue!75!white}}
+
+\newcommand{\makeTOC}{
+    \clearpage
+    \pagestyle{lcctoc}
+    \@customsecfalse
+    \vspace*{0.5cm}
+    \begin{tcolorbox}[
+        enhanced, breakable,
+        skin first=enhanced, skin middle=enhanced, skin last=enhanced,
+        colback=white, opacityback=0.85, 
+        colframe=LCCGray, opacityframe=0.5,    
+        boxrule=1.5pt, arc=20pt, outer arc=20pt,
+        width=0.9\textwidth, enlarge left by=0.05\textwidth, 
+        top=1.5cm, bottom=1.5cm, left=1cm, right=1cm,
+        before skip=1cm
+    ]
+    \begin{center}
+        {\Huge \heiti \bfseries \textcolor{LCCDeepBlue}{目录}}
+        \vspace{1.5cm}
+    \end{center}
+    {\hypersetup{hidelinks} 
+    \@starttoc{toc}} 
+    \end{tcolorbox}
+    \clearpage
+    \setcounter{page}{1}
+    \pagestyle{lccfancy}
+    \@customsectrue 
+}
+
+%8.Section样式设计 
+\newcommand{\sectionbreak}{\clearpage}
+\titleformat{\section}[block]
+  {\normalfont}
+  {}
+  {0pt}
+  {\lcc@section@format}
+\newcommand{\lcc@section@format}[1]{
+    \if@customsec
+        \begin{tikzpicture}[remember picture, overlay]
+            \begin{scope}
+                \clip (current page.north west) rectangle ([yshift=-0.35\paperheight]current page.north east);
+                \node[anchor=north, inner sep=0pt] at (current page.north) {
+                    \includegraphics[width=\paperwidth]{\lcc@sectionbg}
+                };
+            \end{scope}
+            \fill[white, path fading=north] 
+                ([yshift=-0.33\paperheight]current page.north west) 
+                rectangle 
+                ([yshift=-0.33\paperheight+2.5cm]current page.north east);
+            \fill[white] 
+                ([yshift=-0.33\paperheight+1pt]current page.north west) 
+                rectangle 
+                ([yshift=-0.35\paperheight-1pt]current page.north east);
+            \node[anchor=south west, inner sep=0pt] at ([yshift=-0.31\paperheight]current page.north west) {
+                \begin{tcolorbox}[
+                    enhanced,
+                    colback=white, opacityback=0.75,  
+                    colframe=LCCGray, opacityframe=0.5,  
+                    boxrule=1.5pt, arc=15pt, outer arc=15pt,
+                    sharp corners=west, 
+                    width=0.8\paperwidth, 
+                    left=2.5cm, right=15pt, top=12pt, bottom=12pt 
+                ]
+                \Huge \heiti \bfseries \textcolor{LCCDeepBlue}{\thesection\quad #1}
+                \end{tcolorbox}
+            };
+        \end{tikzpicture}
+        \vspace*{0.28\paperheight}
+        \vspace{0.4cm} 
+    \else
+        \Huge \heiti \bfseries \textcolor{LCCDeepBlue}{#1}
+    \fi
+}
+
+%9.数学环境定义
+\tcbset{
+    lcc@basestyle/.style={
+        enhanced, breakable,
+        fonttitle=\bfseries\large,
+        coltitle=white,
+        boxrule=1.5pt,
+        arc=6pt,
+        drop fuzzy shadow=LCCGray!40,
+        before skip=15pt, after skip=15pt,
+        toptitle=3pt, bottomtitle=3pt
+    }
+}
+
+\newtcolorbox[auto counter, number within=section]{定义}[1][]{
+    lcc@basestyle,
+    colframe=LCCDeepBlue!70!white, colback=LCCDeepBlue!2,
+    interior style={top color=LCCDeepBlue!6, bottom color=LCCDeepBlue!1},
+    frame style={left color=LCCDeepBlue!70!white, right color=LCCLightBlue},
+    title={定义~\thetcbcounter\if\relax\detokenize{#1}\relax\else\quad #1\fi}
+}
+
+\newtcolorbox[auto counter, number within=section]{定理}[1][]{
+    lcc@basestyle,
+    colframe=LCCLightBlue, colback=LCCLightBlue!2,
+    interior style={top color=LCCLightBlue!8, bottom color=LCCLightBlue!1},
+    frame style={left color=LCCLightBlue, right color=LCCLineBlue},
+    title={定理~\thetcbcounter\if\relax\detokenize{#1}\relax\else\quad #1\fi}
+}
+
+\newtcolorbox[auto counter, number within=section]{引理}[1][]{
+    lcc@basestyle,
+    colframe=LCCLightPink, colback=LCCLightPink!2,
+    interior style={top color=LCCLightPink!8, bottom color=LCCLightPink!1},
+    frame style={left color=LCCLightPink, right color=LCCLightPink!60!white},
+    title={引理~\thetcbcounter\if\relax\detokenize{#1}\relax\else\quad #1\fi}
+}
+
+\newtcolorbox[auto counter, number within=section]{例题}[1][]{
+    lcc@basestyle,
+    colframe=LCCLightPurple, colback=LCCLightPurple!2,
+    interior style={top color=LCCLightPurple!8, bottom color=LCCLightPurple!1},
+    frame style={left color=LCCLightPurple, right color=LCCLightPurple!60!white},
+    title={例题~\thetcbcounter\if\relax\detokenize{#1}\relax\else\quad #1\fi}
+}
+
+\endinput

@@ -1,0 +1,77 @@
+\documentclass[a4paper,12pt]{ctexart}
+\usepackage{LuChunChun} % 引入自定义宏包
+
+% 全局信息设置
+\title{宏包使用样例}
+\subtitle{LuChunChun Math Notes Template V4}
+\author{LuChunChun}
+\contact{2024213986@mail.hfut.edu.cn}
+
+\begin{document}
+
+\setsectionimage{covers.png} % \setsectionimage可以用来切换图片，括号中的内容要填你想要展示的图片的名称，要带后缀名
+
+\makecover % 生成封面页
+\makeTOC % 生成目录页
+
+% 第一部分：基础环境展示
+
+\setsectionimage{1.png} % 切换第一个 Section 的背景图为 1.png
+\section{基础排版与定义环境}
+\subsection{文档基础信息}
+本说明文档用于展示 \texttt{LuChunChun.sty} 宏包的功能。
+
+% 定义模块
+\begin{定义}[卡氏积]
+	$A, B$ 为非空集合，$A \times B = \{(a, b) \mid \forall a \in A, \forall b \in B\}$ 叫做 $A$ 与 $B$ 的卡氏积。
+\end{定义}
+
+% 定理
+\begin{定理}[双射诱导]
+	若 $f: A \to \overline{A}$ 是双射，则 $f$ 可诱导出 $\overline{A}$ 到 $A$ 的一个双射。
+\end{定理}
+
+\begin{proof}
+	\textcircled{1} $\forall \overline{a} \in \overline{A}$，存在唯一的 $a \in A$，使 $f(a) = \overline{a}$。
+	
+	\textcircled{2} 该映射记作 $f^{-1}$，满射与单射证明略。
+\end{proof}
+
+% 第二部分：进阶环境展示
+
+\setsectionimage{2.png} % 切换第二个 Section 的背景图为 2.png
+\section{引理/例题展示}
+\subsection{引理/例题展示}
+此处展示例题环境，并测试行间数学公式的排版效果。
+% 引理
+\begin{引理}[运算律基础]
+	若 $A$ 的代数运算 $\cdot$ 满足结合律，则对 $A$ 中任意 $n$ 个元 $(n \geq 3)$ $a_1, a_2, \cdots, a_n$，无论哪种加括号的方式，最后所得结果是一样的，可统一用以下形式表示：
+	$$ a_1 \cdot a_2 \cdots a_n $$
+\end{引理}
+
+% 例题模块
+\begin{例题}[判断同态]
+	设有代数系统$\{Z, +\}$和$\{\overline{A}, \cdot\}$，其中$\overline{A} = \{-1, 1\}$，$\cdot$是数的乘法。判断下列从$Z$到$\overline{A}$的映射$\varphi$是否为同态，并说明是哪种同态。
+	
+	(1) $\varphi(m) = -1$，对所有$m \in Z$。
+	
+	(2) $\varphi(n) = 1$，对所有$n \in Z$。
+	
+	(3) $\varphi(n)=\begin{cases}1, & n\text{为偶数}\\-1, & n\text{为奇数}\end{cases}$。
+\end{例题}
+\textbf{解答}\quad
+(1) 对于任意$m, n \in Z$，有$\varphi(m+n) = -1$。而$\varphi(m) \cdot \varphi(n) = (-1) \cdot (-1) = 1$。因为$\varphi(m+n) \neq \varphi(m) \cdot \varphi(n)$，所以$\varphi$不是同态映射。
+
+(2) 对于任意$m, n \in Z$，有$\varphi(m+n) = 1$，且$\varphi(m) \cdot \varphi(n) = 1 \cdot 1 = 1$。因此$\varphi(m+n) = \varphi(m) \cdot \varphi(n)$，$\varphi$是同态映射。但$\varphi$将所有整数映射为$1$，不是满射，所以是单同态，不是满同态。
+
+(3) 对于任意$m, n \in Z$，需验证$\varphi(m+n) = \varphi(m) \cdot \varphi(n)$。
+
+若$m, n$同为偶数，则$m+n$为偶数，$\varphi(m+n)=1$，且$\varphi(m) \cdot \varphi(n) = 1 \cdot 1 = 1$。
+
+若$m, n$同为奇数，则$m+n$为偶数，$\varphi(m+n)=1$，且$\varphi(m) \cdot \varphi(n) = (-1) \cdot (-1) = 1$。
+
+若$m, n$一奇一偶，则$m+n$为奇数，$\varphi(m+n)=-1$，且$\varphi(m) \cdot \varphi(n) = 1 \cdot (-1) = -1$。
+
+在所有情况下，等式均成立，所以$\varphi$是同态映射。又因为$\varphi$既是单射也是满射（值域为$\{-1, 1\}$且无重复），所以$\varphi$是满同态，且是双射，因此$\{Z, +\} \cong \{\{-1, 1\}, \cdot\}$。
+	
+\end{document}
